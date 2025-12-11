@@ -144,7 +144,7 @@ export default function FormContent({
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href={formData.file}
+            href={typeof formData.file === "string" ? formData.file :""}
             className="mt-1 text-sm text-gray-500"
           >
             Current file: {formData.resumeOriginalName}

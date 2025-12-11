@@ -1,12 +1,9 @@
 import { useSelector } from 'react-redux'
 import LatestJobCard from './LatestJobCard'
 import type { RootState } from '@/store/store'
-import { useState } from 'react'
 
 export default function LatestJobs() {
   const { filteredJobs } = useSelector((state: RootState) => state.jobs)
-  // const [_filteredJobs, setFilteredJobs] = useState(filteredJobs)
-  // console.log('jobs', filteredJobs)
   console.log('filteredJobs', filteredJobs)
 
   return (

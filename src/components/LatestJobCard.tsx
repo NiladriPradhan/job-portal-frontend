@@ -2,26 +2,29 @@ import { Link } from 'react-router-dom'
 import { Badge } from './ui/badge'
 import { Card, CardContent, CardDescription, CardTitle } from './ui/card'
 import { daysAgo } from '@/utils/daysAgo'
+
 interface Company {
   name: string
-  description: string
-  website: string
+  description?: string
+  website?: string
 }
+
 interface LatestJobCardProps {
   job: {
     _id: string | number
     title: string
     description: string
-    experiencelevel: number
+    experiencelevel?: number
     jobType: string
     location: string
-    position: string
+    position?: string
     salary: number
     createdAt: string
-    company: Company
+    company?: Company      // 👈 now optional
     requirements?: string[]
   }
 }
+
 
 export default function LatestJobCard({ job }: LatestJobCardProps) {
   const {
@@ -38,11 +41,16 @@ export default function LatestJobCard({ job }: LatestJobCardProps) {
 
   // Convert company to display string
   // const companyDisplay = Array.isArray(company) ? company.join(', ') : company
-  const companyDisplay = Array.isArray(company)
-    ? company.map((c) => c.name).join(', ')
-    : company?.name || 'Unknown Company'
+
+  // const companyDisplay = Array.isArray(company)
+  //   ? company.map((c) => c.name).join(', ')
+  //   : company?.name || 'Unknown Company'
+
+  const companyDisplay = company?.name || 'Unknown Company'
+
   const truncateDesc = (str: string) =>
     str.length > 40 ? str.slice(0, 40) + '...' : str
+
   return (
     <div className="w-full">
       <Card>

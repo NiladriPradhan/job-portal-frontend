@@ -37,7 +37,7 @@ export default function AppliedJobs() {
               <TableRow key={appliedJob._id}>
                 {/* Applied Date */}
                 <TableCell className="font-medium">
-                  {appliedJob.createdAt.split('T')[0]}
+                  {(appliedJob.createdAt as string).split('T')[0]}
                 </TableCell>
 
                 {/* Job Role */}
