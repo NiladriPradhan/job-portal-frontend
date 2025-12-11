@@ -9,6 +9,7 @@ interface Company {
 }
 interface LatestJobCardProps {
   job: {
+    _id: string | number
     title: string
     description: string
     experiencelevel: number

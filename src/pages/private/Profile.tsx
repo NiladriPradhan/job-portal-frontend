@@ -12,6 +12,20 @@ import axios, { AxiosError } from 'axios'
 import { USER_API_ENDPOINT } from '@/utils/constants'
 import { toast } from 'react-toastify'
 
+interface FormData {
+  fullname: string
+  email: string
+  phonenumber: string
+  role: string
+  skills: string[]
+  bio: string
+  file: File | null
+  resumeOriginalName: string
+  photoFile: File | null
+  profilePhoto: string | null
+  location: string // ✅ ADD THIS
+}
+
 export default function Profile() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -19,26 +33,28 @@ export default function Profile() {
 
   const { user } = useSelector((state: RootState) => state.auth)
   const safeSkills = user?.profile?.skills ?? []
-  const safeResume = user?.profile?.resume ?? ''
+  // const safeResume = user?.profile?.resume ?? ''
   const safeBio = user?.profile?.bio ?? ''
 
   const [editMode, setEditMode] = useState(false)
   const safeResumeOriginalName = user?.profile?.resumeOriginalName ?? ''
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     fullname: user?.fullname || 'No name found',
     email: user?.email || 'No email found',
     phonenumber: user?.phoneNumber || 'No mobile number found',
     role: user?.role || 'No role found',
     skills: [...safeSkills],
-    bio: safeBio, // added bio
-    file: safeResume,
+    bio: safeBio,
+    // file: safeResume,
+    file: null,
     resumeOriginalName: safeResumeOriginalName,
     photoFile: null,
-    profilePhoto: user?.profile?.photo || null
+    profilePhoto: user?.profile?.photo || null,
+    location: user?.profile?.location || ''
   })
 
-  const [savePromise, setSavePromise] = useState<Promise<void> | null>(null)
+  const [savePromise] = useState<Promise<void> | null>(null)
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -59,13 +75,12 @@ export default function Profile() {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // Preview the image instantly
     const preview = URL.createObjectURL(file)
 
     setFormData((prev) => ({
       ...prev,
-      profilePhoto: preview, // Preview for UI
-      photoFile: file // Actual file for upload
+      profilePhoto: preview,
+      photoFile: file
     }))
   }
 
@@ -80,8 +95,12 @@ export default function Profile() {
     data.append('skills', formData.skills.join(','))
 
     // resume file
-    if (formData.file && formData.file instanceof File) {
-      data.append('resume', formData.file) // ✔ MUST MATCH multer name
+    // if (formData.file && formData.file instanceof File) {
+    //   data.append('resume', formData.file)
+    // }
+
+    if (formData.file instanceof File) {
+      data.append('resume', formData.file)
     }
 
     if (formData.photoFile) {
@@ -210,8 +229,6 @@ export default function Profile() {
 
             <div className="my-6 h-px w-full bg-gray-200"></div>
 
-            {/* FORM WITH SUSPENSE */}
-
             <Suspense
               fallback={
                 <div className="py-6 text-center text-gray-500">Saving...</div>
@@ -225,14 +242,13 @@ export default function Profile() {
                 handleSubmit={handleSubmit}
                 savePromise={savePromise}
                 handleLogout={handleLogout}
-                isLoading={isLoading} // <-- Pass loading state
+                isLoading={isLoading}
               />
             </Suspense>
           </CardContent>
         </Card>
       </div>
 
-      {/* APPLIED JOBS */}
       <div className="mx-auto flex max-w-4xl justify-center">
         <AppliedJobs />
       </div>

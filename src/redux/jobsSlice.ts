@@ -1,6 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { ReactNode } from 'react'
 
 export interface JobType {
+  job: unknown
+  createdAt: unknown
+  status: ReactNode
   _id: string
   title: string
   description: string

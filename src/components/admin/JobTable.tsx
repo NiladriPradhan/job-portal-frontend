@@ -8,7 +8,7 @@ import {
   TableCaption
 } from '@/components/ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { Edit2, Eye, MoreHorizontal } from 'lucide-react'
+import { Eye, MoreHorizontal } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
 

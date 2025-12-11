@@ -7,9 +7,9 @@ import {
   TableCell
 } from '@/components/ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { DeleteIcon, Edit2, MoreHorizontal } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Edit2, MoreHorizontal } from 'lucide-react'
 import { Button } from '../ui/button'
+import type { ReactNode } from 'react'
 
 // Utility: Days ago
 function daysAgo(dateString: string) {
@@ -20,6 +20,7 @@ function daysAgo(dateString: string) {
 }
 
 interface Company {
+  location: ReactNode
   _id: string
   name: string
   logo: string // image url
@@ -38,9 +39,9 @@ export default function CompanyTable({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[80px]">SL_NO</TableHead>
-            <TableHead className="w-[80px]">ID_NO</TableHead>
-            <TableHead className="w-[80px]">Logo</TableHead>
+            <TableHead className="w-20">SL_NO</TableHead>
+            <TableHead className="w-20">ID_NO</TableHead>
+            <TableHead className="w-20">Logo</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Location</TableHead>
             <TableHead>Date</TableHead>
@@ -74,7 +75,9 @@ export default function CompanyTable({
 
                 {/* NAME */}
                 <TableCell className="font-medium">{company.name}</TableCell>
-                <TableCell className="font-medium">{company.location}</TableCell>
+                <TableCell className="font-medium">
+                  {company.location}
+                </TableCell>
 
                 {/* CREATED DATE */}
                 <TableCell>{daysAgo(company.createdAt)} days ago</TableCell>
@@ -86,7 +89,11 @@ export default function CompanyTable({
                     </PopoverTrigger>
                     <PopoverContent className="w-32">
                       <div>
-                        <Button onClick={()=>onEdit(company._id)}  className="flex items-center gap-x-2 text-gray-600" variant={"outline"}>
+                        <Button
+                          onClick={() => onEdit(company._id)}
+                          className="flex items-center gap-x-2 text-gray-600"
+                          variant={'outline'}
+                        >
                           <Edit2 className="h-4 w-4" />
                           <span>Edit</span>
                         </Button>

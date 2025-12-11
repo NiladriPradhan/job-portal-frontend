@@ -12,33 +12,6 @@ import {
 import { useSelector } from 'react-redux'
 import type { RootState } from '@/store/store'
 
-const invoices = [
-  {
-    date: '01/02/2025',
-    jobRole: 'Full Stack Developer',
-    company: 'Wiliano',
-    status: 'Selected'
-  },
-  {
-    date: '10/12/2025',
-    jobRole: 'Frontend Developer',
-    company: 'Cognizant',
-    status: 'Selected'
-  },
-  {
-    date: '12/12/2025',
-    jobRole: 'Full Stack Developer',
-    company: 'Encoders',
-    status: 'Selected'
-  },
-  {
-    date: '20/12/2025',
-    jobRole: 'Full Stack Developer',
-    company: 'Infitech',
-    status: 'pending'
-  }
-]
-
 export default function AppliedJobs() {
   useGetAppliedJobs()
   const { allAppliedJobs } = useSelector((state: RootState) => state.jobs)

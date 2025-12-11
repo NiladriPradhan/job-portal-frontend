@@ -1,8 +1,30 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { USER_API_ENDPOINT } from '@/utils/constants'
 import { LogOut } from 'lucide-react'
+
+interface FormData {
+  fullname: string
+  email: string
+  phonenumber: string
+  role: string
+  bio: string
+  location: string
+  skills: string[]
+  resumeOriginalName: string
+  file: File | null
+}
+
+interface FormContentProps {
+  formData: FormData
+  editMode: boolean
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  handleSubmit: (e: React.FormEvent) => void
+  savePromise: Promise<unknown> | null
+  handleSkillsChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  isLoading: boolean
+  handleLogout: () => void
+}
 
 export default function FormContent({
   formData,
@@ -13,12 +35,12 @@ export default function FormContent({
   handleSkillsChange,
   isLoading,
   handleLogout
-}: any) {
+}: FormContentProps) {
   // Throw the promise to suspend
   if (savePromise) throw savePromise
-  const resumeURL = formData.resumeOriginalName.startsWith('http')
-    ? formData.resumeOriginalName
-    : `${USER_API_ENDPOINT}/uploads/${formData.resumeOriginalName}`
+  // const resumeURL = formData.resumeOriginalName.startsWith('http')
+  //   ? formData.resumeOriginalName
+  //   : `${USER_API_ENDPOINT}/uploads/${formData.resumeOriginalName}`
 
   return (
     <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
