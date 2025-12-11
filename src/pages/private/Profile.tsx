@@ -1,15 +1,14 @@
 import { useState, Suspense } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Mail } from 'lucide-react'
-import Navbar from '@/components/shared/Navbar'
 import { Switch } from '@/components/ui/switch'
 import FormContent from '@/components/FormContent'
 import AppliedJobs from '@/components/AppliedJobs'
 import { useDispatch, useSelector } from 'react-redux'
-import { logout, setUser } from '@/redux/userSlice'
+import { setUser } from '@/redux/userSlice'
 import { useNavigate } from 'react-router-dom'
 import type { RootState } from '@/store/store'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { USER_API_ENDPOINT } from '@/utils/constants'
 import { toast } from 'react-toastify'
 
@@ -34,7 +33,9 @@ export default function Profile() {
     skills: [...safeSkills],
     bio: safeBio, // added bio
     file: safeResume,
-    resumeOriginalName: safeResumeOriginalName
+    resumeOriginalName: safeResumeOriginalName,
+    photoFile: null,
+    profilePhoto: user?.profile?.photo || null
   })
 
   const [savePromise, setSavePromise] = useState<Promise<void> | null>(null)
@@ -54,6 +55,20 @@ export default function Profile() {
     }))
   }
 
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Preview the image instantly
+    const preview = URL.createObjectURL(file)
+
+    setFormData((prev) => ({
+      ...prev,
+      profilePhoto: preview, // Preview for UI
+      photoFile: file // Actual file for upload
+    }))
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -67,6 +82,10 @@ export default function Profile() {
     // resume file
     if (formData.file && formData.file instanceof File) {
       data.append('resume', formData.file) // ✔ MUST MATCH multer name
+    }
+
+    if (formData.photoFile) {
+      data.append('profilePhoto', formData.photoFile)
     }
 
     try {
@@ -88,7 +107,8 @@ export default function Profile() {
       }
       setIsloading(false)
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Something went wrong')
+      const axiosError = error as AxiosError<{ message: string }>
+      toast.error(axiosError.response?.data?.message || 'Something went wrong')
     } finally {
       setIsloading(false)
     }
@@ -113,8 +133,6 @@ export default function Profile() {
 
   return (
     <>
-      <Navbar />
-
       <div className="mx-auto max-w-7xl p-6">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Your Profile</h1>
@@ -133,8 +151,39 @@ export default function Profile() {
           <CardContent className="p-6">
             {/* PROFILE HEADER */}
             <div className="flex flex-col items-center gap-4 sm:flex-row">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-200 text-3xl font-bold text-gray-600">
+              {/* <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gray-200 text-3xl font-bold text-gray-600">
                 {formData.fullname[0]}
+              </div> */}
+              {/* PROFILE PHOTO */}
+              <div className="relative h-24 w-24">
+                <img
+                  src={
+                    formData.profilePhoto ||
+                    user?.profile?.profilePhoto ||
+                    'https://via.placeholder.com/150?text=No+Image'
+                  }
+                  alt="Profile"
+                  className="h-full w-full rounded-full border object-cover"
+                />
+
+                {editMode && (
+                  <>
+                    <label
+                      htmlFor="profilePhoto"
+                      className="absolute right-0 bottom-0 cursor-pointer rounded-md bg-black/60 px-2 py-1 text-xs text-white"
+                    >
+                      Change
+                    </label>
+
+                    <input
+                      id="profilePhoto"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handlePhotoChange}
+                    />
+                  </>
+                )}
               </div>
 
               <div>
@@ -159,7 +208,7 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="my-6 h-[1px] w-full bg-gray-200"></div>
+            <div className="my-6 h-px w-full bg-gray-200"></div>
 
             {/* FORM WITH SUSPENSE */}
 
