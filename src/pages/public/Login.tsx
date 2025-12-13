@@ -51,7 +51,7 @@ export default function Login() {
       dispatch(setLoading(true))
 
       const res = await axios.post(
-        `${USER_API_ENDPOINT}/login`,
+        `http://localhost:5000/api/v1/user/login`,
         {
           email: formData.email,
           password: formData.password,
