@@ -11,6 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Eye, MoreHorizontal } from 'lucide-react'
 import { Button } from '../ui/button'
 import { useNavigate } from 'react-router-dom'
+import type { JobType } from '@/redux/jobsSlice'
 
 function daysAgo(dateString: string) {
   const created = new Date(dateString)
@@ -19,20 +20,11 @@ function daysAgo(dateString: string) {
   return Math.floor(diff / (1000 * 60 * 60 * 24))
 }
 
-interface Job {
-  _id: string
-  title: string
-  company: {
-    _id: string
-    name: string
-    location?: string
-  } | null
-  createdAt: string
-}
+
 
 export default function JobTable({
   jobs}: {
-  jobs: Job[]
+  jobs: JobType[]
   onEdit: (id: string) => void
 }) {
   const navigate = useNavigate()
