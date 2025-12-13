@@ -84,7 +84,7 @@ export default function Profile() {
     }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
 
     const data = new FormData()

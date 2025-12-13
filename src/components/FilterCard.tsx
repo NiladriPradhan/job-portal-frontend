@@ -52,7 +52,7 @@ export default function FilterCard() {
                   />
                   <Label
                     htmlFor={`${category.filterType}-${item}`}
-                    className="font-semibold font-thin"
+                    className="font-semibold"
                   >
                     {item}
                   </Label>

@@ -7,10 +7,16 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+interface Company {
+  _id: string
+  name: string
+  description?: string
+  website?: string
+}
 
 export default function AdminHome() {
-  const [companies, setCompanies] = useState([])
-  const [search, setSearch] = useState('')  // 🟢 New search state
+  const [companies, setCompanies] = useState<Company[]>([])
+  const [search, setSearch] = useState('')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -37,7 +43,6 @@ export default function AdminHome() {
     navigate(`/admin/companies/${id}`)
   }
 
-  // 🔍 FILTER COMPANIES BASED ON SEARCH INPUT
   const filteredCompanies = companies.filter((company: any) =>
     company.name.toLowerCase().includes(search.toLowerCase())
   )
@@ -65,7 +70,6 @@ export default function AdminHome() {
         </div>
       </div>
 
-      {/* Pass filtered list to table */}
       <CompanyTable
         companies={filteredCompanies}
         onEdit={handleEdit}

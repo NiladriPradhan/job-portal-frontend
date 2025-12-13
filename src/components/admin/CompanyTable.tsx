@@ -18,13 +18,16 @@ function daysAgo(dateString: string) {
   const diff = now.getTime() - created.getTime()
   return Math.floor(diff / (1000 * 60 * 60 * 24)) // days
 }
-
 interface Company {
-  location: ReactNode
   _id: string
   name: string
-  logo: string // image url
-  createdAt: string
+
+  // optional fields (because APIs differ)
+  description?: string
+  website?: string
+  logo?: string
+  location?: ReactNode | string
+  createdAt?: string
 }
 
 export default function CompanyTable({
