@@ -11,18 +11,13 @@ import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 
 export default function AdminJobs() {
   const { allAdminJobs, searchJobByText } = useSelector(
-    (state: RootState) =>
-      state.jobs || { allAdminJobs: [], searchJobByText: '' }
-  ) as {
-    allAdminJobs: Array<{ _id: string; title: string; [key: string]: any }>
-    searchJobByText: string
-  }
+    (state: RootState) => state.jobs
+  )
 
-  console.log("allAdminJobs",allAdminJobs);
-  
+  console.log('allAdminJobs', allAdminJobs)
 
   const [search, setSearch] = useState<string>(searchJobByText)
-  const [filteredJob, setFilteredJob] = useState(allAdminJobs || [])
+  const [filteredJob, setFilteredJob] = useState<typeof allAdminJobs>([])
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -49,6 +44,11 @@ export default function AdminJobs() {
   // EDIT JOB
   function handleEdit(id: string) {
     const job = allAdminJobs.find((j) => j._id === id)
+
+    if (!job) {
+      console.error('Job not found')
+      return
+    }
     dispatch(setSingleJob(job))
     navigate(`/admin/jobs/${id}`)
   }

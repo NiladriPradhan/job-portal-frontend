@@ -83,7 +83,7 @@ export default function CompanyTable({
                 </TableCell>
 
                 {/* CREATED DATE */}
-                <TableCell>{daysAgo(company.createdAt)} days ago</TableCell>
+                <TableCell>{company.createdAt ? `${daysAgo(company.createdAt)} days ago` : 'N/A'}</TableCell>
 
                 <TableCell className="text-right">
                   <Popover>

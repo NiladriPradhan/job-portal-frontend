@@ -1,4 +1,3 @@
-import Navbar from '@/components/shared/Navbar'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -12,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { setLoading, setUser } from '@/redux/userSlice'
 import { USER_API_ENDPOINT } from '@/utils/constants'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -82,7 +81,8 @@ export default function Login() {
       }
     } catch (error) {
       console.log('Login Error:', error)
-      toast.error(error?.response?.data?.message || 'Login failed')
+      const axiosError = error as AxiosError<{ message: string }>
+      toast.error(axiosError?.response?.data?.message || 'Login failed')
     } finally {
       dispatch(setLoading(false))
     }

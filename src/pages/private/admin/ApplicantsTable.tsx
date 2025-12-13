@@ -12,6 +12,17 @@ import { APPLICATION_API_ENDPOINT } from '@/utils/constants'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
+interface Applicant {
+  _id: string
+  fullname: string
+  email: string
+  phoneNumber: string
+  resume: string
+  resumeOriginalName?: string
+  appliedAt: string
+  status?: 'pending' | 'accepted' | 'rejected'
+}
+
 export default function ApplicantsTable({
   applicants = []
 }: {
@@ -78,7 +89,9 @@ export default function ApplicantsTable({
                     target="_blank"
                     className="text-blue-600 underline"
                   >
-                    {applicant.resumeOriginalName ? applicant.resumeOriginalName : 'N/A'}
+                    {applicant.resumeOriginalName
+                      ? applicant.resumeOriginalName
+                      : 'N/A'}
                   </a>
                 </TableCell>
 

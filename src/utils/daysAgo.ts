@@ -1,10 +1,10 @@
-export function daysAgo(dateString) {
+export function daysAgo(dateString: string | number | Date) {
   const date = new Date(dateString);
   const now = new Date();
 
   const seconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-  const intervals = {
+  const intervals: Record<string, number> = {
     year: 31536000,
     month: 2592000,
     week: 604800,
@@ -15,7 +15,7 @@ export function daysAgo(dateString) {
 
   if (seconds < 5) return "Just now";
 
-  for (let key in intervals) {
+  for (const key in intervals) {
     const interval = Math.floor(seconds / intervals[key]);
     if (interval >= 1) {
       return interval === 1

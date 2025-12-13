@@ -60,7 +60,7 @@ const jobSlice = createSlice({
       state.jobs = action.payload
       state.filteredJobs = action.payload
     },
-    setSingleJob: (state, action: PayloadAction<JobType>) => {
+    setSingleJob: (state, action: PayloadAction<JobType | null>) => {
       state.singleJob = action.payload
     },
     setSearchJobByQuery: (state, action: PayloadAction<string>) => {
