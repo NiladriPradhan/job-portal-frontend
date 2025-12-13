@@ -72,7 +72,6 @@ export default function Login() {
           return
         }
 
-        // FIXED HERE
         toast.success(res.data.message)
 
         localStorage.setItem('user', JSON.stringify(res.data.user))

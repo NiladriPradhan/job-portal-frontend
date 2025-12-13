@@ -1,5 +1,5 @@
-export const USER_API_ENDPOINT = "http://localhost:5000/api/v1/user"
-export const JOB_API_ENDPOINT = "http://localhost:5000/api/v1/job"
-export const APPLICATION_API_ENDPOINT = "http://localhost:5000/api/v1/application"
-export const COMPANY_API_ENDPOINT = "http://localhost:5000/api/v1/company"
-export const REGISTER_COMPANY_API_ENDPOINT = "http://localhost:5000/api/v1/company"
+export const USER_API_ENDPOINT = import.meta.env.VITE.USER_API_ENDPOINT
+export const JOB_API_ENDPOINT = import.meta.env.VITE.JOB_API_ENDPOINT
+export const APPLICATION_API_ENDPOINT = import.meta.env.VITE.APPLICATION_API_ENDPOINT
+export const COMPANY_API_ENDPOINT = import.meta.env.VITE.COMPANY_API_ENDPOINT
+export const REGISTER_COMPANY_API_ENDPOINT = import.meta.env.VITE.REGISTER_COMPANY_API_ENDPOINT
