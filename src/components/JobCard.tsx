@@ -3,14 +3,16 @@ import { Button } from '@/components/ui/button'
 import { Briefcase, Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
+
 interface JobProps {
   _id: string
   title: string
   description: string
-  position: string
+  position?: string
   jobType: string
   salary: number
 }
+
 type JobCardProps = {
   idx?: number
   ago: number | string
